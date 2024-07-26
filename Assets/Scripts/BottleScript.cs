@@ -109,6 +109,7 @@ public class BottleScript : MonoBehaviour
         {
             Score = 25;
             Debug.Log("Level Sab k nikly gay..");
+            Debug.Log("Level Sab k nikly gay..");
             WinningPartcals.SetActive(true);
         }
     }
