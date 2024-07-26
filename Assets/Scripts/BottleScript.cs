@@ -13,6 +13,10 @@ public class BottleScript : MonoBehaviour
     private Quaternion startRotation; // Initial rotation when rotation starts
     Rigidbody rb;
 
+    public int Score;
+
+    public  UiHanadler UiHandler;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -41,6 +45,7 @@ public class BottleScript : MonoBehaviour
                         // Apply upward and X-axis force, and start 360-degree rotation
                         ApplyForce(Vector3.up * forceAmount, Vector3.right * xMovementAmount);
                         StartRotation();
+                        UiHandler.MainMainScreen();
                     }
                     else if (clickCount == 2)
                     {
@@ -92,6 +97,24 @@ public class BottleScript : MonoBehaviour
             isGrounded = true;
             clickCount = 0;  // Reset the click count when the bottle collides with the ground
             transform.rotation = Quaternion.identity;
+            rb.velocity = Vector3.zero;
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            Debug.Log("gameOver");
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("WinningBasket"))
+        {
+            Score = 25;
+            Debug.Log("Level Sab k nikly gay..");
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
+        {
+            transform.rotation = Quaternion.identity;
         }
     }
 
@@ -101,5 +124,6 @@ public class BottleScript : MonoBehaviour
         {
             isGrounded = false;
         }
+       
     }
 }
