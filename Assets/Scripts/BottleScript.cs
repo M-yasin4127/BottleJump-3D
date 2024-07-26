@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BottleScript : MonoBehaviour
@@ -11,6 +12,7 @@ public class BottleScript : MonoBehaviour
     private bool isRotating = false; // Flag to check if the bottle is currently rotating
     private float rotationStartTime; // Time when rotation started
     private Quaternion startRotation; // Initial rotation when rotation starts
+    public GameObject WinningPartcals;
     Rigidbody rb;
 
     public int Score;
@@ -107,6 +109,7 @@ public class BottleScript : MonoBehaviour
         {
             Score = 25;
             Debug.Log("Level Sab k nikly gay..");
+            WinningPartcals.SetActive(true);
         }
     }
 
