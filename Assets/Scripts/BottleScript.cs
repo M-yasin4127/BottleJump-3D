@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BottleScript : MonoBehaviour
@@ -15,9 +16,11 @@ public class BottleScript : MonoBehaviour
     public GameObject WinningPartcals;
     Rigidbody rb;
 
-    public int Score;
-
+    public ScoreManager scoreManager1;
     public  UiHanadler UiHandler;
+    public SoundManager soundManager1;
+
+    public bool isMoving;
 
     void Start()
     {
@@ -30,30 +33,36 @@ public class BottleScript : MonoBehaviour
 
     void Update()
     {
-        if (!isGrounded && rb.velocity.y < 0 && !isRotating)
+        if (!isMoving)
         {
-            transform.rotation = Quaternion.identity;
-        }
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began)
+            if (!isGrounded && rb.velocity.y < 0 && !isRotating)
             {
-                if (isGrounded || clickCount < 2)
+                transform.rotation = Quaternion.identity;
+            }
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Began)
                 {
-                    clickCount++;
-                    if (clickCount == 1 && !isRotating)
+                    if (isGrounded || clickCount < 2)
                     {
-                        // Apply upward and X-axis force, and start 360-degree rotation
-                        ApplyForce(Vector3.up * forceAmount, Vector3.right * xMovementAmount);
-                        StartRotation();
-                        UiHandler.MainMainScreen();
-                    }
-                    else if (clickCount == 2)
-                    {
-                        // Apply additional upward and X-axis force
-                        ApplyForce(Vector3.up * forceAmount, Vector3.right * xMovementAmount);
-                        StartRotation();
+                        clickCount++;
+                        if (clickCount == 1 && !isRotating)
+                        {
+                            // Apply upward and X-axis force, and start 360-degree rotation
+                            ApplyForce(Vector3.up * forceAmount, Vector3.right * xMovementAmount);
+                            StartRotation();
+                            soundManager1.BottleJumpSound();
+                            UiHandler.MainMainScreen();
+                        }
+                        else if (clickCount == 2)
+                        {
+                            // Apply additional upward and X-axis force
+                            ApplyForce(Vector3.up * forceAmount, Vector3.right * xMovementAmount);
+                            StartRotation();
+                            soundManager1.BottleJumpSound();
+
+                        }
                     }
                 }
             }
@@ -104,16 +113,29 @@ public class BottleScript : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             Debug.Log("gameOver");
+            UiHandler.GameOver();
+            isMoving = true;
+            return;
         }
-        if (collision.gameObject.layer == LayerMask.NameToLayer("WinningBasket"))
+       
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("WinningCollider"))
         {
-            Score = 25;
-            Debug.Log("Level Sab k nikly gay..");
-            Debug.Log("Level Sab k nikly gay..");
             WinningPartcals.SetActive(true);
+            UiHandler.LevelComScreen();
+            soundManager1.LevelCompSound();
+            isMoving = true;
+            return;
+        }
+        if (other.gameObject.layer == LayerMask.NameToLayer("Coins"))
+        {
+            scoreManager1.CoinsCollect();
+            soundManager1.CoinsSound();
+            Destroy(other.gameObject);
         }
     }
-
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
