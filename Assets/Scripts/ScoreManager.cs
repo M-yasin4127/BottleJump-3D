@@ -36,3 +36,5 @@ public class ScoreManager : MonoBehaviour
             PlayerPrefs.SetInt("Score",Score);
     }
 }
+ 
+  

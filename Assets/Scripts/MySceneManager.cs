@@ -6,9 +6,19 @@ using UnityEngine.SceneManagement;
 public class MySceneManager : MonoBehaviour
 {
  
-    public void loadScene1()
+    public void RestartLevel()
     {
         Debug.Log("Reloading Scene");
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void LoadNextLevel()
+    {
+        if (SceneManager.sceneCount == SceneManager.GetActiveScene().buildIndex - 1) 
+        {
+            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(0);
+        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

@@ -3,7 +3,12 @@ guid: 3e8671b625abdca48810bbe93cbfe8c5
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: T5M411yf
+    second: {fileID: 2800000, guid: 7f7fe2b1029acc345a49801cc72e6b08, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
