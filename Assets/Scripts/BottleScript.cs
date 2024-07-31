@@ -19,6 +19,9 @@ public class BottleScript : MonoBehaviour
     public ScoreManager scoreManager1;
     public  UiHanadler UiHandler;
     public SoundManager soundManager1;
+    public GameObject Bottle;
+    public GameObject BrokenBottle;
+    public GameObject TrailRandere;
 
     public bool isMoving;
 
@@ -117,6 +120,9 @@ public class BottleScript : MonoBehaviour
             Debug.Log("gameOver");
             UiHandler.GameOver();
             isMoving = true;
+            TrailRandere.SetActive(false);
+            Bottle.SetActive(false);
+            BrokenBottle.SetActive(true);
             return;
         }
 
