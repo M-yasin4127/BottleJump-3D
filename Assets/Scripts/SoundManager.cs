@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour
     public GameObject bottleSound;
     public GameObject levelCompSound;
     public GameObject coinsSounds;
+    public bool isMusicOn;
     void Start()
     {
         
@@ -21,18 +22,28 @@ public class SoundManager : MonoBehaviour
 
     public void BottleJumpSound()
     {
-       GameObject bt = Instantiate(bottleSound);
-        Destroy(bt, 1);
+        if (!isMusicOn)
+        {
+            GameObject bt = Instantiate(bottleSound);
+            Destroy(bt, 1);
+        }
+
     }
     public void LevelCompSound()
     {
-       GameObject ls = Instantiate(levelCompSound);
-        Destroy(ls, 3);
+        if (!isMusicOn)
+        {
+            GameObject ls = Instantiate(levelCompSound);
+            Destroy(ls, 3);
+        }
     }
     public void CoinsSound()
     {
-        GameObject gs = Instantiate(coinsSounds);
-        Destroy(gs, 2);
+        if (!isMusicOn)
+        {
+            GameObject gs = Instantiate(coinsSounds);
+            Destroy(gs, 2);
+        }
     }
 
 }

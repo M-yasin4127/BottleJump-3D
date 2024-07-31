@@ -7,6 +7,10 @@ public class UiHanadler : MonoBehaviour
     public GameObject MainMenu;
     public GameObject LevelCompScreen;
     public GameObject GameOverScreen;
+    public GameObject menuScreen;
+    public GameObject soundOff;
+    public GameObject soundOn;
+    public SoundManager soundManager1;
 
     public void MainMainScreen()
     {
@@ -21,5 +25,27 @@ public class UiHanadler : MonoBehaviour
         GameOverScreen.SetActive(true); 
     }
 
-  
+    public void MenuScreen()
+    {
+        menuScreen.SetActive(true);
+        MainMenu.SetActive(false);
+    }
+    public  void BackToMianmaenu()
+    {
+        menuScreen.SetActive(false);
+        MainMenu.SetActive(true);
+    }
+    public void SounOff()
+    {
+        soundManager1.isMusicOn=true;
+        soundOff.SetActive(false);
+        soundOn.SetActive(true);
+    }
+    public void SounOn()
+    {
+        soundManager1.isMusicOn = false;
+        soundOff.SetActive(true);
+        soundOn.SetActive(false);
+    }
+
 }

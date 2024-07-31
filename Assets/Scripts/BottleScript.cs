@@ -24,11 +24,8 @@ public class BottleScript : MonoBehaviour
 
     void Start()
     {
+        isMoving = true;
         rb = GetComponent<Rigidbody>();
-        //if (Bottle == null)
-        //{
-        //    Debug.LogError("Bottle GameObject is not assigned.");
-        //}
     }
 
     void Update()
@@ -53,7 +50,6 @@ public class BottleScript : MonoBehaviour
                             ApplyForce(Vector3.up * forceAmount, Vector3.right * xMovementAmount);
                             StartRotation();
                             soundManager1.BottleJumpSound();
-                            UiHandler.MainMainScreen();
                         }
                         else if (clickCount == 2)
                         {
@@ -82,6 +78,12 @@ public class BottleScript : MonoBehaviour
 
             transform.rotation = startRotation * Quaternion.Euler(0, 0, -rotationAmount);
         }
+    }
+
+    public void PlayGame()
+    {
+        isMoving = false;
+        UiHandler.MainMainScreen();
     }
 
     void ApplyForce(Vector3 forceUpward, Vector3 forceX)
@@ -116,6 +118,15 @@ public class BottleScript : MonoBehaviour
             UiHandler.GameOver();
             isMoving = true;
             return;
+        }
+
+        if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
+            transform.SetParent(collision.gameObject.transform, true);
+        }
+        else
+        {
+            transform.parent = null;
         }
        
     }

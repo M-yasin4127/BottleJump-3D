@@ -28,7 +28,7 @@ public class ScoreManager : MonoBehaviour
         CoinsScore.text = Score.ToString();
         ScoreforlevelCom.text = Score.ToString();
         ScoreforGameOver.text = Score.ToString();
-        ScoreforLevelCom1.text = Score.ToString();
+        //ScoreforLevelCom1.text = Score.ToString();
         ChangeScore();
     }
     public void ChangeScore()
