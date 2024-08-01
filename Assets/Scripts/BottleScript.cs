@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,9 +13,11 @@ public class BottleScript : MonoBehaviour
     private bool isGrounded = false; // Flag to check if the bottle is grounded
     private bool isRotating = false; // Flag to check if the bottle is currently rotating
     private float rotationStartTime; // Time when rotation started
+    private bool isLanding;
     private Quaternion startRotation; // Initial rotation when rotation starts
     public GameObject WinningPartcals;
     Rigidbody rb;
+    BoxCollider boxCollider;
 
     public ScoreManager scoreManager1;
     public  UiHanadler UiHandler;
@@ -27,8 +30,10 @@ public class BottleScript : MonoBehaviour
 
     void Start()
     {
+        isLanding = false;
         isMoving = true;
         rb = GetComponent<Rigidbody>();
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     void Update()
@@ -37,8 +42,13 @@ public class BottleScript : MonoBehaviour
         {
             if (!isGrounded && rb.velocity.y < 0 && !isRotating)
             {
-                transform.rotation = Quaternion.identity;
+                //transform.rotation = Quaternion.identity;
+                //isLanding = true;
+                StartCoroutine(Landing());
+
+                //transform.rotation = Quaternion.Lerp(startRotation, Quaternion.identity, rotationStartTime);
             }
+
             if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
@@ -49,14 +59,12 @@ public class BottleScript : MonoBehaviour
                         clickCount++;
                         if (clickCount == 1 && !isRotating)
                         {
-                            // Apply upward and X-axis force, and start 360-degree rotation
                             ApplyForce(Vector3.up * forceAmount, Vector3.right * xMovementAmount);
                             StartRotation();
                             soundManager1.BottleJumpSound();
                         }
                         else if (clickCount == 2)
                         {
-                            // Apply additional upward and X-axis force
                             ApplyForce(Vector3.up * forceAmount, Vector3.right * xMovementAmount);
                             StartRotation();
                             soundManager1.BottleJumpSound();
@@ -75,8 +83,8 @@ public class BottleScript : MonoBehaviour
 
             if (rotationAmount >= 360f)
             {
-                rotationAmount = 360f; // Ensure it does not exceed 360 degrees
-                isRotating = false;   // Stop rotating
+                rotationAmount = 360f; 
+                isRotating = false;   
             }
 
             transform.rotation = startRotation * Quaternion.Euler(0, 0, -rotationAmount);
@@ -89,11 +97,28 @@ public class BottleScript : MonoBehaviour
         UiHandler.MainMainScreen();
     }
 
+    private IEnumerator Landing()
+    {
+        Quaternion startRotation = transform.rotation;
+        Quaternion endRotation = new Quaternion(0, 0, 1, 1);
+        float progress = 0;
+
+        while (progress < 1)
+        {
+            progress += Time.deltaTime * 10;
+            transform.rotation = Quaternion.Lerp(startRotation, Quaternion.identity, progress);
+            
+            yield return null;
+        }
+
+        yield break;
+    }
+
     void ApplyForce(Vector3 forceUpward, Vector3 forceX)
     {
         if (rb != null)
         {
-            rb.velocity = Vector3.zero;  // Reset the velocity to avoid compounding forces
+            rb.velocity = Vector3.zero;  
             rb.AddForce(forceUpward, ForceMode.Impulse);
             rb.AddForce(forceX, ForceMode.Impulse);
         }
@@ -101,7 +126,10 @@ public class BottleScript : MonoBehaviour
 
     void StartRotation()
     {
-        startRotation = Quaternion.identity; // Start from the current rotation
+        if (clickCount == 2)
+            startRotation = transform.rotation;
+        else 
+            startRotation = Quaternion.identity; 
         rotationStartTime = Time.time;
         isRotating = true;
     }
@@ -111,18 +139,22 @@ public class BottleScript : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
         {
             isGrounded = true;
-            clickCount = 0;  // Reset the click count when the bottle collides with the ground
+            clickCount = 0;  
             transform.rotation = Quaternion.identity;
             rb.velocity = Vector3.zero;
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             Debug.Log("gameOver");
-            UiHandler.GameOver();
             isMoving = true;
+            UiHandler.GameOver();
             TrailRandere.SetActive(false);
             Bottle.SetActive(false);
             BrokenBottle.SetActive(true);
+            soundManager1.BottleBreakSound();
+            rb.isKinematic = true;
+            boxCollider.enabled = false;
+            transform.parent = null;
             return;
         }
 

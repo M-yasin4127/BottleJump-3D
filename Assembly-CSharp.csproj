@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\BikeMove.cs" />
     <Compile Include="Assets\Scripts\BottleScript.cs" />
+    <Compile Include="Assets\Scripts\SplashScreen.cs" />
     <Compile Include="Assets\Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\UiHanadler.cs" />
     <Compile Include="Assets\Scripts\MySceneManager.cs" />

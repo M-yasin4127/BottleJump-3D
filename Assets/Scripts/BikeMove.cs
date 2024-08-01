@@ -21,7 +21,7 @@ public class BikeMove : MonoBehaviour
         if (collision.gameObject.CompareTag("Bottle"))
         {
             startMoving = true;
-            // collision.gameObject.transform.SetParent(transform, true);
+            SoundManager.instance.CarSound();
             StartCoroutine(MoveOverTime(2.5f));
         }
     }

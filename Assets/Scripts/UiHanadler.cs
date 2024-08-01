@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UiHanadler : MonoBehaviour
 {
+
     public GameObject MainMenu;
     public GameObject LevelCompScreen;
     public GameObject GameOverScreen;
@@ -11,6 +12,7 @@ public class UiHanadler : MonoBehaviour
     public GameObject soundOff;
     public GameObject soundOn;
     public SoundManager soundManager1;
+    public GameObject BottleSckincreen;
 
     public void MainMainScreen()
     {
@@ -34,6 +36,7 @@ public class UiHanadler : MonoBehaviour
     {
         menuScreen.SetActive(false);
         MainMenu.SetActive(true);
+        BottleSckincreen.SetActive(false);
     }
     public void SounOff()
     {
@@ -46,6 +49,12 @@ public class UiHanadler : MonoBehaviour
         soundManager1.isMusicOn = false;
         soundOff.SetActive(true);
         soundOn.SetActive(false);
+    }
+
+    public  void SckinScreen()
+    {
+        BottleSckincreen.SetActive(true);
+        MainMenu.SetActive(false);
     }
 
 }
