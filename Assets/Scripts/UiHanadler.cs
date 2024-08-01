@@ -40,13 +40,13 @@ public class UiHanadler : MonoBehaviour
     }
     public void SounOff()
     {
-        soundManager1.isMusicOn=true;
+        soundManager1.EnableSounds();
         soundOff.SetActive(false);
         soundOn.SetActive(true);
     }
     public void SounOn()
     {
-        soundManager1.isMusicOn = false;
+        soundManager1.DisableSounds();
         soundOff.SetActive(true);
         soundOn.SetActive(false);
     }

@@ -79,4 +79,16 @@ public class SoundManager : MonoBehaviour
             Destroy(bs, 2.5f);
         }
     }
+
+    public void DisableSounds()
+    {
+        AudioListener al = FindAnyObjectByType<AudioListener>();
+        al.enabled = false;
+    }
+
+    public void EnableSounds()
+    {
+        AudioListener al = FindAnyObjectByType<AudioListener>();
+        al.enabled = true;
+    }
 }

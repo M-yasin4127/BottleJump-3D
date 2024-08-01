@@ -6,15 +6,15 @@ using UnityEngine;
 public class BottleScript : MonoBehaviour
 {
     //public GameObject Bottle;
-    public float forceAmount = 2.5f;  // Amount of force to apply per click
-    public float xMovementAmount = 2.5f; // Amount of X-axis movement per click
-    public float rotationSpeed = 360f; // Rotation speed in degrees per second
-    private int clickCount = 0;      // Counter to track number of touches
-    private bool isGrounded = false; // Flag to check if the bottle is grounded
-    private bool isRotating = false; // Flag to check if the bottle is currently rotating
-    private float rotationStartTime; // Time when rotation started
+    public float forceAmount = 2.5f; 
+    public float xMovementAmount = 2.5f;
+    public float rotationSpeed = 360f;
+    private int clickCount = 0;     
+    private bool isGrounded = false;
+    private bool isRotating = false;
+    private float rotationStartTime; 
     private bool gameWon;
-    private Quaternion startRotation; // Initial rotation when rotation starts
+    private Quaternion startRotation; 
     public GameObject WinningPartcals;
     Rigidbody rb;
     BoxCollider boxCollider;
@@ -185,7 +185,8 @@ public class BottleScript : MonoBehaviour
         {
             scoreManager1.CoinsCollect();
             soundManager1.CoinsSound();
-            Destroy(other.gameObject);
+           Destroy(other.gameObject);
+           
         }
     }
     private void OnCollisionStay(Collision collision)

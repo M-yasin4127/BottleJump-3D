@@ -47,6 +47,6 @@ public class BikeMove : MonoBehaviour
             yield return null;
         }
 
-        transform.position = targetPosition.position; // Ensure final position is reached
+        transform.position = targetPosition.position; 
     }
 }
