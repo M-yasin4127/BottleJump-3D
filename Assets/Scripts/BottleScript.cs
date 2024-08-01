@@ -13,7 +13,7 @@ public class BottleScript : MonoBehaviour
     private bool isGrounded = false; // Flag to check if the bottle is grounded
     private bool isRotating = false; // Flag to check if the bottle is currently rotating
     private float rotationStartTime; // Time when rotation started
-    private bool isLanding;
+    private bool gameWon;
     private Quaternion startRotation; // Initial rotation when rotation starts
     public GameObject WinningPartcals;
     Rigidbody rb;
@@ -30,7 +30,7 @@ public class BottleScript : MonoBehaviour
 
     void Start()
     {
-        isLanding = false;
+        gameWon = false;
         isMoving = true;
         rb = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
@@ -42,9 +42,9 @@ public class BottleScript : MonoBehaviour
         {
             if (!isGrounded && rb.velocity.y < 0 && !isRotating)
             {
-                //transform.rotation = Quaternion.identity;
+                transform.rotation = Quaternion.identity;
                 //isLanding = true;
-                StartCoroutine(Landing());
+                //StartCoroutine(Landing());
 
                 //transform.rotation = Quaternion.Lerp(startRotation, Quaternion.identity, rotationStartTime);
             }
@@ -136,6 +136,8 @@ public class BottleScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (gameWon) return;
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Platform"))
         {
             isGrounded = true;
@@ -176,6 +178,7 @@ public class BottleScript : MonoBehaviour
             UiHandler.LevelComScreen();
             soundManager1.LevelCompSound();
             isMoving = true;
+            gameWon = true;
             return;
         }
         if (other.gameObject.layer == LayerMask.NameToLayer("Coins"))
